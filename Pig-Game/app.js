@@ -17,19 +17,24 @@ init();
 
 $('.btn-roll').click(function() {
     if(gamePlaying) {
-         dice = Math.floor(Math.random() * 6 + 1);
-        $('.dice').css("display","block");
-        $('.dice').attr('src','dice-'+ dice +'.png');
+         dice1 = Math.floor(Math.random() * 6 + 1);
+         dice2 = Math.floor(Math.random() * 6 + 1);
+        $('#dice-1').css("display","block");
+        $('#dice-2').css("display","block");
 
-        if(dice !== 1){
-            roundScore += dice;
+        $('#dice-1').attr('src','dice-'+ dice1 +'.png');
+        $('#dice-2').attr('src','dice-'+ dice2 +'.png');
+
+       
+        if(dice1 !== 1 && dice2 !==1){
+            roundScore += dice1 + dice2;
             $('#current-' + activePlayer).html(roundScore);
         }else {
-        nextPlayer();
+            nextPlayer();
         }
+
     }
 
-   
     
 });
 
@@ -37,11 +42,19 @@ $('.btn-hold').click(function(){
 
     if(gamePlaying){
          scores[activePlayer] += roundScore;
-        $('#score-' + activePlayer).html(scores[activePlayer]);
+        $('#score-' + activePlayer).html(scores[activePlayer]);      
+        var input = $('.final-score').val(); 
+        var winnningScore;
+        if(input){
+            var winnningScore = input;
+        }else {
+            winnningScore = 100;
+        }
 
-        if (scores[activePlayer] >= 20) {
+        if (scores[activePlayer] >= winnningScore) {
             $('#name-' + activePlayer).html('Winner!');
-            $('.dice').css('display','none');
+            $('#dice1').css('display','none');
+            $('#dice2').css('display','none');
             $('.player-' + activePlayer + '-panel').addClass('winner');
             $('.player-' + activePlayer + '-panel').removeClass('active');
             gamePlaying = false;
